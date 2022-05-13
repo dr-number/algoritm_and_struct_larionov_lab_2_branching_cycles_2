@@ -1,8 +1,120 @@
 ﻿namespace larionov_lab_2_branching_cycles_2
 {
+    class TasksInfo
+    {
+        public const string TASK_1 = "Пользователь задает промежутки для двух аргументов и шаг.\n" +
+            "Программа выводит на экран значения функции.";
+
+        public const string TASK_3 = "Определить, лежат ли две точки с координатами (x1, y1) и (x2, y2) в одной четверти.\n" +
+            "Если лежат, вычислить периметр треугольника, вершинами которого являются начало координат и данные точки.\n" +
+            "Если все точки лежат на одной прямой, вывести сообщение об этом.\n" +
+            "Если точки в одной четверти не лежат, определить, лежат ли они в одной полуплоскости.";
+
+        public const string TASK_7 = "Вычислить значние суммы бесконечного ряда\n" +
+            "с точностью до члена ряда, по модулю меньшего E";
+
+        public const string TASK_9 = "Дано натуральное число N. Вычислить сумму";
+    }
+
+    class MyInput
+    {
+        public int inputData(string text, int min, int max, int defaultValue = -1)
+        {
+
+            string xStr = "";
+            bool isNumber = false;
+            int x = 0;
+
+
+            while (true)    //Цикл с предусловием
+            {
+                Console.ResetColor();
+                Console.WriteLine(text);
+
+                xStr = Console.ReadLine();
+
+                if (xStr == "")
+                    return defaultValue;
+
+                isNumber = int.TryParse(xStr, out x);
+
+                if (!isNumber)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{xStr} - не число");
+                }
+                else if (x < min && x > max)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{xStr} - не число должно лежать в промежутке [{min}; {max}]!");
+                }
+                else
+                    break;
+            }
+
+            return x;
+        }
+
+        public double inputDoubleData(string text, int min, int max, double defaultValue = -1)
+        {
+
+            string xStr = "";
+            bool isNumber = false;
+            double x = 0;
+
+            while (true)    //Цикл с предусловием
+            {
+                Console.ResetColor();
+                Console.WriteLine(text);
+
+                xStr = Console.ReadLine();
+
+                if (xStr == "")
+                    return defaultValue;
+
+                isNumber = double.TryParse(xStr, out x);
+
+                if (!isNumber)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{xStr} - не число");
+                }
+                else if (x < min && x > max)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{xStr} - не число должно лежать в промежутке [{min}; {max}]!");
+                }
+                else
+                    break;
+            }
+
+            return x;
+        }
+    }
+
+    class MyQuestion
+    {
+        public const string QUESTION_RANDOM_DATA = "Сгенерировать данные случайным образом [y/n]?";
+        public const string QUESTION_IN_ORDER_DATA = "Взять числа по порядку [y/n]?";
+        public const string QUESTION_SHOW_CALC = "Показывать ход вычислений [y/n]?";
+
+        public bool isQuestion(string textQuestion)
+        {
+            Console.WriteLine("\n" + textQuestion);
+            return Console.ReadLine()?.ToLower() != "n";
+        }
+    }
 
     class Task1
     {
+        private const int MIN = -1000;
+        private const int MAX = 1000;
+
+        private struct arguments
+        {
+            public double x;
+            public double x1;
+        }
 
         private void function1(double p, double p1, double q, double q1, double step)
         {
@@ -78,43 +190,18 @@
             Console.ResetColor();
         }
 
-        private double inputData(string text)
-        {
-
-            string xStr = "";
-            bool isNumber = false;
-            double x = 0;
-
-            while (true)    ////Цикл с предусловием
-            {
-                Console.ResetColor();
-                Console.WriteLine(text);
-
-                xStr = Console.ReadLine();
-                isNumber = double.TryParse(xStr, out x);
-
-                if (!isNumber)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{xStr} - не число");
-                }
-                else
-                    break;
-            }
-
-            return x;
-        }
-
-        private double[] inputDouble(string arg)
+        private arguments inputDouble(string arg)
         {
             double x = 0, x1 = 0;
 
-            while (true) ////Цикл с предусловием
+            MyInput myInput = new MyInput();
+
+            while (true) //Цикл с предусловием
             {
                 Console.ResetColor();
 
-                x = inputData($"\nВведите начальное значение {arg} (число): ");
-                x1 = inputData($"\nВведите промежуток для {arg} (число): ");
+                x = myInput.inputData($"\nВведите начальное значение {arg} (число): ", MIN, MAX);
+                x1 = myInput.inputData($"\nВведите промежуток для {arg} (число): ", MIN, MAX);
 
                 if (x >= x1)
                 {
@@ -125,77 +212,43 @@
                     break;
             }
 
-            double[] array = { x, x1 };
-            return array;
-        }
-
-        private double inputStep()
-        {
-            double step;
-
-            while (true) ////Цикл с предусловием
-            {
-                Console.ResetColor();
-
-                step = inputData("\nВведите шаг (число): ");
-
-                if (step <= 0)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Шаг не должен быть равен 0 или меньше 0!");
-                }
-                else
-                    break;
-            }
-
-            return step;
+            arguments result = new arguments();
+            result.x = x;
+            result.x1 = x1;
+            return result;
         }
 
         public void init()
         {
-            double[] P = inputDouble("P");
-            double[] Q = inputDouble("Q");
-            double step = inputStep();
+            Console.WriteLine(TasksInfo.TASK_1);
 
-            function1(P[0], P[1], Q[0], Q[1], step);
+            arguments P = inputDouble("P");
+            arguments Q = inputDouble("Q");
+
+            MyInput myInput = new MyInput();
+            double step = myInput.inputDoubleData("\nВведите шаг (число): ", 0, MAX);
+
+            function1(P.x, P.x1, Q.x, Q.x1, step);
         }
 
     }
 
     class Task3
     {
+        const int MIN = -50;
+        const int MAX = 50;
 
-        private double inputData(string text)
+        private struct point
         {
+            public double x;
+            public double y;
+            public string name;
+        };
 
-            string xStr = "";
-            bool isNumber = false;
-            double x = 0;
-
-            while (true)  ////Цикл с предусловием
-            {
-                Console.ResetColor();
-                Console.WriteLine(text);
-
-                xStr = Console.ReadLine();
-                isNumber = double.TryParse(xStr, out x);
-
-                if (!isNumber)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{xStr} - не число");
-                }
-                else
-                    break;
-            }
-
-            return x;
-        }
-
-        private int quarter(double[] coord)
+        private int quarter(point pnt)
         {
-            double x = coord[0];
-            double y = coord[1];
+            double x = pnt.x;
+            double y = pnt.y;
 
             if (x > 0)
             {
@@ -220,13 +273,16 @@
             return "0";
         }
 
-        private double lengthSection(string point1, double[] coord1, string point2, double[] coord2)
+        private double lengthSection(point pnt1, point pnt2)
         {
-            double x1 = coord1[0];
-            double y1 = coord1[1];
 
-            double x2 = coord2[0];
-            double y2 = coord2[1];
+            string point1 = pnt1.name;
+            double x1 = pnt1.x;
+            double y1 = pnt1.y;
+
+            string point2 = pnt2.name;
+            double x2 = pnt2.x;
+            double y2 = pnt2.y;
 
             Console.WriteLine($"{point1}({x1}; {y1})");
             Console.WriteLine($"{point2}({x2}; {y2})\n");
@@ -257,17 +313,20 @@
             return result;
         }
 
-        private bool isInLine(string point1, double[] coord1, string point2, double[] coord2, string point3, double[] coord3)
+        private bool isInLine(point pnt1, point pnt2, point pnt3)
         {
-         
-            double x1 = coord1[0];
-            double y1 = coord1[1];
 
-            double x2 = coord2[0];
-            double y2 = coord2[1];
+            string point1 = pnt1.name;
+            double x1 = pnt1.x;
+            double y1 = pnt1.y;
 
-            double x3 = coord3[0];
-            double y3 = coord3[1];
+            string point2 = pnt2.name;
+            double x2 = pnt2.x;
+            double y2 = pnt2.y;
+
+            string point3 = pnt3.name;
+            double x3 = pnt3.x;
+            double y3 = pnt3.y;
 
             Console.WriteLine($"{point1}({x1}; {y1})");
             Console.WriteLine($"{point2}({x2}; {y2})");
@@ -327,13 +386,15 @@
             return isInLine;
         }
 
-        private bool isInHalf(string point1, double[] a, string point2, double[] b)
+        private bool isInHalf(point a, point b)
         {
-            double x1 = a[0];
-            double y1 = a[1];
+            string point1 = a.name;
+            double x1 = a.x;
+            double y1 = a.y;
 
-            double x2 = b[0];
-            double y2 = b[1];
+            string point2 = b.name;
+            double x2 = b.x;
+            double y2 = b.y;
 
             bool isInHalf = x1 * x2 > 0 || y1 * y2 > 0;
 
@@ -357,42 +418,45 @@
 
         public void init()
         {
-            Console.WriteLine("\nХотите сгенерировать точки случайным образом? [y/n]");
-            bool isRandom = Console.ReadLine()?.ToLower() != "n";
+            Console.WriteLine(TasksInfo.TASK_3);
+
+            MyQuestion myQuestion = new MyQuestion();
+            bool isRandom = myQuestion.isQuestion(MyQuestion.QUESTION_RANDOM_DATA);
 
             bool isError = false;
 
-            double x1 = 0, y1 = 0;
-            double x2 = 0, y2 = 0;
+            point a, b, c;
+             a.name = "A";
+             b.name = "B";
 
-            const int MIN_RANDOM = -50;
-            const int MAX_RANDOM = 50;
+             c.name = "C";
+            c.x = 0;
+            c.y = 0;
 
             if (isRandom)
             {
                 Random rnd = new Random();
+                a.x = rnd.Next(MIN, MAX);
+                a.y = rnd.Next(MIN, MAX);
 
-                x1 = rnd.Next(MIN_RANDOM, MAX_RANDOM);
-                y1 = rnd.Next(MIN_RANDOM, MAX_RANDOM);
-
-                x2 = rnd.Next(MIN_RANDOM, MAX_RANDOM);
-                y2 = rnd.Next(MIN_RANDOM, MAX_RANDOM);
+                
+                b.x = rnd.Next(MIN, MAX);
+                b.y = rnd.Next(MIN, MAX);
             }
             else
             {
-                x1 = inputData("\nВведите координату X1: ");
-                y1 = inputData("\nВведите координату Y1: ");
+                MyInput myInput = new MyInput();
 
-                x2 = inputData("\nВведите координату X2: ");
-                y2 = inputData("\nВведите координату Y2: ");
+                a.x = myInput.inputData("\nВведите координату X1: ", MIN, MAX);
+                a.y = myInput.inputData("\nВведите координату Y1: ", MIN, MAX);
+
+                b.x = myInput.inputData("\nВведите координату X2: ", MIN, MAX);
+                b.y = myInput.inputData("\nВведите координату Y2: ", MIN, MAX);
             }
 
-            double[] a = { x1, y1 };
-            double[] b = { x2, y2 };
-            double[] c = { 0, 0 };
-
+            
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"\nПолученные координаты: А({x1}; {y1}); А({x2}; {y2}).\n");
+            Console.WriteLine($"\nПолученные координаты: А({a.x}; {a.y}); B({b.x}; {b.y}).\n");
             Console.ResetColor();
 
 
@@ -401,14 +465,14 @@
             if (varQuarter != 0 && quarter(b) == varQuarter)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\nТочки : А({x1}; {y1}); B({x2}; {y2}) - лежат в одной четверти ({quarterToStr(varQuarter)})\n");
+                Console.WriteLine($"\nТочки : А({a.x}; {a.y}); B({b.x}; {b.y}) - лежат в одной четверти ({quarterToStr(varQuarter)})\n");
                 Console.ResetColor();
 
-                Console.WriteLine($"Вычислим периметр треугольника А({x1}; {y1}); B({x2}; {y2}); C(0; 0)\n");
+                Console.WriteLine($"Вычислим периметр треугольника А({a.x}; {a.y}); B({b.x}; {b.y}); C(0; 0)\n");
 
-                double ab = lengthSection("A", a, "B", b);
-                double bc = lengthSection("B", b, "C", c);
-                double ca = lengthSection("C", c, "A", a);
+                double ab = lengthSection(a, b);
+                double bc = lengthSection(b, c);
+                double ca = lengthSection(c, a);
 
                 Console.WriteLine($"\nP треугольника ABC = {ab} + {bc} + {ca}");
 
@@ -419,10 +483,10 @@
             else
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\nТочки : А({x1}; {y1}); B({x2}; {y2}) - не лежат в одной четверти\n");
+                Console.WriteLine($"\nТочки: А({a.x}; {a.y}); B({b.x}; {b.y}) - не лежат в одной четверти\n");
                 Console.ResetColor();
 
-                if (isInHalf("A", a, "B", b) && isInHalf("B", b, "C", c))
+                if (isInHalf(a, b) && isInHalf(b, c))
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Точки А, B, C лежат в одной полуплоскости");
@@ -436,7 +500,7 @@
 
            
 
-            if (isInLine("A", a, "B", b, "C", c))
+            if (isInLine(a, b, c))
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Точки лежат на одной прямой");
@@ -454,35 +518,7 @@
 
     class Task7
     {
-        private double inputData(string text, double defaultX)
-        {
-
-            string xStr = "";
-            bool isNumber = false;
-            double x = 0;
-
-            while (true)   ////Цикл с предусловием
-            {
-                Console.ResetColor();
-                Console.WriteLine(text);
-
-                xStr = Console.ReadLine();
-                isNumber = double.TryParse(xStr, out x);
-
-                if (!isNumber)
-                {
-                    if (xStr == "")
-                        return defaultX;
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{xStr} - не число");
-                }
-                else
-                    break;
-            }
-
-            return x;
-        }
+        private const double EXACTNESS = 0.00001, DEFAULT_X = 0.5;
 
         private int factorial(int n)
         {
@@ -494,29 +530,20 @@
             return factorial;
         }
 
-        private double f(double x, int n)
-        {
-            double result = Math.Pow(x, n) / factorial(n);
-            return result;
-        }
-
-        private double checkF(double x)
-        {
-            return (Math.Exp(x) - Math.Exp(-x)) / 2;
-        }
-
         public void init()
         {
-            double EXACTNESS = 0.00001, DEFAULT_X = 0.5;
 
-            int factorial = 1, n = 1;
+            Console.WriteLine(TasksInfo.TASK_7);
+
+            int n = 1;
             double current = 0, sum = 0, prev;
 
             string MASK = "0.#########################";
 
             Console.WriteLine($"\nВычислить значение суммы бесконечного ряда c точностью  E = {EXACTNESS.ToString(MASK)}\n");
 
-            double x = inputData($"Введите значение X или нажмите Enter для X = {DEFAULT_X}: ", DEFAULT_X);
+            MyInput myInput = new MyInput();
+            double x = myInput.inputDoubleData($"Введите значение X или нажмите Enter для X = {DEFAULT_X}: ", 0, 1, DEFAULT_X);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"x = {x}");
@@ -529,7 +556,7 @@
             do   //Цикл с постусловием
             {
                 prev = current;
-                current = f(x, n);
+                current = (Math.Pow(x, n) / factorial(n));
 
                 sum += current;
 
@@ -540,7 +567,7 @@
             }
             while (Math.Abs(current - prev) > EXACTNESS);
 
-            double check = checkF(x);
+            double check = (Math.Exp(x) - Math.Exp(-x)) / 2;
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nСумма ряда равна: {0,30}", sum);
@@ -574,45 +601,7 @@
 
     class Task9
     {
-        private int inputData(string text, int maxCount)
-        {
-
-            string xStr = "";
-            bool isNumber = true;
-            int x;
-
-            while (true)   //Цикл с предусловием
-            {
-                Console.ResetColor();
-                Console.WriteLine(text);
-
-                xStr = Console.ReadLine();
-                isNumber = int.TryParse(xStr, out x);
-
-                if (!isNumber)
-                {
-                    if (xStr == "")
-                        return maxCount;
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{xStr} - не число");
-                }
-                else if (x > maxCount)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Введите число не более {maxCount}!");
-                }
-                else if (x < 0)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Введите число более 0!");
-                }
-                else
-                    break;
-            }
-
-            return x;
-        }
+        private const int MAX_N = 200;
 
         private void draw(string n)
         {
@@ -628,11 +617,6 @@
         }
 
 
-        private double f1(int k, int n)
-        {
-            return 1 / (Math.Pow(k, 2) + n);
-        }
-
         private double sum1(int k, string MASK)
         {
             double prev = 0, current = 0, sum = 0;
@@ -641,7 +625,7 @@
             for (int i = 1; i < 3; ++i)   ////Цикл с параметром
             {
                 prev = current;
-                current = f1(k, i);
+                current = (1 / (Math.Pow(k, 2) + i));
 
                 sum = current + prev;
 
@@ -653,9 +637,10 @@
 
         public void init()
         {
-            const int MAX_N = 200;
+            Console.WriteLine(TasksInfo.TASK_9);
 
-            int n = inputData($"Введите натуральное число (Не больше {MAX_N}): ", MAX_N);
+            MyInput myInput = new MyInput();
+            int n = myInput.inputData($"Введите натуральное число (Не больше {MAX_N}): ", 0, MAX_N);
 
             draw("N");
 
@@ -697,7 +682,13 @@
 
             while (isGo)  ////Цикл с предусловием
             {
-                Console.WriteLine("\nВведите номер задачи \"1\", \"3\", \"7\" или \"9\": ");
+                Console.WriteLine("\nВведите номер задачи: ");
+
+                Console.WriteLine("\n1) " + TasksInfo.TASK_1);
+                Console.WriteLine("\n3) " + TasksInfo.TASK_3);
+                Console.WriteLine("\n7) " + TasksInfo.TASK_7);
+                Console.WriteLine("\n9) " + TasksInfo.TASK_9);
+
                 Console.WriteLine("Для выхода введите \"0\": ");
 
                 string selectStr = Console.ReadLine();
