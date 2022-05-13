@@ -439,7 +439,6 @@
                 a.x = rnd.Next(MIN, MAX);
                 a.y = rnd.Next(MIN, MAX);
 
-                
                 b.x = rnd.Next(MIN, MAX);
                 b.y = rnd.Next(MIN, MAX);
             }
@@ -486,7 +485,7 @@
                 Console.WriteLine($"\nТочки: А({a.x}; {a.y}); B({b.x}; {b.y}) - не лежат в одной четверти\n");
                 Console.ResetColor();
 
-                if (isInHalf(a, b) && isInHalf(b, c))
+                if (isInHalf(a, b) && isInHalf(b, c) && isInHalf(a, c))
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Точки А, B, C лежат в одной полуплоскости");
