@@ -639,7 +639,7 @@
             Console.WriteLine(TasksInfo.TASK_9);
 
             MyInput myInput = new MyInput();
-            int n = myInput.inputData($"Введите натуральное число (Не больше {MAX_N}): ", 0, MAX_N);
+            int n = myInput.inputData($"Введите натуральное число (Не больше {MAX_N}): ", 1, MAX_N);
 
             draw("N");
 
