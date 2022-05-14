@@ -16,6 +16,11 @@
         public const string TASK_9 = "Дано натуральное число N. Вычислить сумму";
     }
 
+    class constants
+    {
+        public const string MASK = "0.#########################";
+    }
+
     class MyInput
     {
         public int inputData(string text, int min, int max, int defaultValue = -1)
@@ -537,9 +542,7 @@
             int n = 1;
             double current = 0, sum = 0, prev;
 
-            string MASK = "0.#########################";
-
-            Console.WriteLine($"\nВычислить значение суммы бесконечного ряда c точностью  E = {EXACTNESS.ToString(MASK)}\n");
+            Console.WriteLine($"\nВычислить значение суммы бесконечного ряда c точностью  E = {EXACTNESS.ToString(constants.MASK)}\n");
 
             MyInput myInput = new MyInput();
             double x = myInput.inputDoubleData($"Введите значение X или нажмите Enter для X = {DEFAULT_X}: ", 0, 1, DEFAULT_X);
@@ -559,7 +562,7 @@
 
                 sum += current;
 
-                Console.WriteLine("{0,30}   |{1,30}", current.ToString(MASK), sum.ToString(MASK));
+                Console.WriteLine("{0,30}   |{1,30}", current.ToString(constants.MASK), sum.ToString(constants.MASK));
 
                 n += 2;
 
@@ -590,7 +593,7 @@
                 message = "Вычисления неточны!";
             }
 
-            Console.WriteLine($"\nРазность: {difference.ToString(MASK)}");
+            Console.WriteLine($"\nРазность: {difference.ToString(constants.MASK)}");
             Console.WriteLine($"{message}\n");
 
             Console.ResetColor();
@@ -616,7 +619,7 @@
         }
 
 
-        private double sum1(int k, string MASK)
+        private double sum1(int k)
         {
             double prev = 0, current = 0, sum = 0;
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -628,7 +631,7 @@
 
                 sum = current + prev;
 
-                Console.WriteLine("{0,30}   |{1,30}", current.ToString(MASK), sum.ToString(MASK));
+                Console.WriteLine("{0,30}   |{1,30}", current.ToString(constants.MASK), sum.ToString(constants.MASK));
             }
 
             return sum;
@@ -649,21 +652,20 @@
 
             double prev = 0, current = 0, sum = 0;
 
-            string MASK = "0.#########################";
             Console.WriteLine("{0,30}   |{1,30}", "Слагаемое", "Сумма");
 
 
             for (int k = 1; k < n; ++k)   ////Цикл с параметром
             {
                 prev = sum;
-                current = sum1(k, MASK);
+                current = sum1(k);
                 sum = current + prev;
 
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("{0,30}   |{1,30}\n", current.ToString(MASK), sum.ToString(MASK));
+                Console.WriteLine("{0,30}   |{1,30}\n", current.ToString(constants.MASK), sum.ToString(constants.MASK));
             }
 
-            Console.WriteLine($"Сумма равна: {sum.ToString(MASK)}\n");
+            Console.WriteLine($"Сумма равна: {sum.ToString(constants.MASK)}\n");
             Console.ResetColor();
 
         }
