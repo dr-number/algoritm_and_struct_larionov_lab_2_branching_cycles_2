@@ -551,7 +551,7 @@
 
             Console.WriteLine("{0,30}   |{1,30}", "Слагаемое", "Сумма");
             Console.WriteLine("{0,30}   |{1,30}", current, sum);
-
+            
             do   //Цикл с постусловием
             {
                 prev = current;
